@@ -1,0 +1,7 @@
+---
+- name: "setup prometheus for service dicovery"
+  become: yes
+  shell: |
+    touch /etc/prometheus/prometheus.yml
+    bash -c "echo -e 'global:\n scrape_interval: 1s\n evaluation_interval: 1s\nscrape_configs:\n - job_name: 'node'\n   ec2_sd_configs:\n    - region: us-east-1\n      access_key: YOUR_ACCESS_KEY_HERE\n      secret_key: YOUR_SECRET_KEY_HERE\n      port: 9100' > /etc/prometheus/prometheus.yml"
+    systemctl restart prometheus
